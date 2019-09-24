@@ -1,0 +1,161 @@
+---
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: "{{ .Release.Name }}-frontend-route"
+  labels: 
+    release: {{ .Release.Name }}
+spec:
+  host: {{ .Values.general.hostname | quote }}
+  subdomain: ''
+  to:
+    kind: Service
+    name: "{{ .Release.Name }}"
+    weight: 100
+  port:
+    targetPort: {{ .Release.Name }}-frontend
+  wildcardPolicy: None
+---
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: "{{ .Release.Name }}-backend-register-route"
+  labels: 
+    release: {{ .Release.Name }}
+spec:
+  host: {{ .Values.general.hostname | quote }}
+  subdomain: ''
+  path: /register
+  to:
+    kind: Service
+    name: "{{ .Release.Name }}"
+    weight: 100
+  port:
+    targetPort: {{ .Release.Name }}-backend
+  wildcardPolicy: None
+---
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: "{{ .Release.Name }}-backend-login-route"
+  labels: 
+    release: {{ .Release.Name }}
+spec:
+  host: {{ .Values.general.hostname | quote }}
+  subdomain: ''
+  path: /login
+  to:
+    kind: Service
+    name: "{{ .Release.Name }}"
+    weight: 100
+  port:
+    targetPort: {{ .Release.Name }}-backend
+  wildcardPolicy: None
+---
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: "{{ .Release.Name }}-backend-firstrun-route"
+  labels: 
+    release: {{ .Release.Name }}
+spec:
+  host: {{ .Values.general.hostname | quote }}
+  subdomain: ''
+  path: /firstrun
+  to:
+    kind: Service
+    name: "{{ .Release.Name }}"
+    weight: 100
+  port:
+    targetPort: {{ .Release.Name }}-backend
+  wildcardPolicy: None
+---
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: "{{ .Release.Name }}-backend-events-route"
+  labels: 
+    release: {{ .Release.Name }}
+spec:
+  host: {{ .Values.general.hostname | quote }}
+  subdomain: ''
+  path: /events
+  to:
+    kind: Service
+    name: "{{ .Release.Name }}"
+    weight: 100
+  port:
+    targetPort: {{ .Release.Name }}-backend
+  wildcardPolicy: None
+---
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: "{{ .Release.Name }}-backend-listen-route"
+  labels: 
+    release: {{ .Release.Name }}
+spec:
+  host: {{ .Values.general.hostname | quote }}
+  subdomain: ''
+  path: /listen
+  to:
+    kind: Service
+    name: "{{ .Release.Name }}"
+    weight: 100
+  port:
+    targetPort: {{ .Release.Name }}-backend
+  wildcardPolicy: None
+---
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: "{{ .Release.Name }}-backend-notification-route"
+  labels: 
+    release: {{ .Release.Name }}
+spec:
+  host: {{ .Values.general.hostname | quote }}
+  subdomain: ''
+  path: /notification
+  to:
+    kind: Service
+    name: "{{ .Release.Name }}"
+    weight: 100
+  port:
+    targetPort: {{ .Release.Name }}-backend
+  wildcardPolicy: None
+---
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: "{{ .Release.Name }}-backend-notification-options-route"
+  labels: 
+    release: {{ .Release.Name }}
+spec:
+  host: {{ .Values.general.hostname | quote }}
+  subdomain: ''
+  path: /notification-options
+  to:
+    kind: Service
+    name: "{{ .Release.Name }}"
+    weight: 100
+  port:
+    targetPort: {{ .Release.Name }}-backend
+  wildcardPolicy: None
+---
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: "{{ .Release.Name }}-backend-notification-rules-route"
+  labels: 
+    release: {{ .Release.Name }}
+spec:
+  host: {{ .Values.general.hostname | quote }}
+  subdomain: ''
+  path: /notification-rules
+  to:
+    kind: Service
+    name: "{{ .Release.Name }}"
+    weight: 100
+  port:
+    targetPort: {{ .Release.Name }}-backend
+  wildcardPolicy: None

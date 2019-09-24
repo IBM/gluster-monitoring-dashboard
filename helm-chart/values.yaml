@@ -1,0 +1,33 @@
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+replicaCount: 1
+general:
+  hostname: glusterfs-monitor.apps.sn-portals-tor01.skills.network
+  serviceType: ClusterIP
+  registrationSecret: glusterSecret
+backend:
+  image:
+    repository: doctorqubit/glusterfs-dashboard-backend
+    tag: 0.0.1
+    pullPolicy: Always
+  service:
+    externalPort: 9000
+    internalPort: 9000
+  glusterSecret: glusterSecret
+frontend:
+  image:
+    repository: doctorqubit/glusterfs-dashboard-frontend
+    tag: 0.0.1
+    pullPolicy: Always
+  service:
+    externalPort: 8000
+    internalPort: 8000
+mongodb:
+    persistence:
+      enabled: true
+      storageClass: scratch
+      size: 8Gi
+    usePassword: true
+    mongodbUsername: mongousername
+    mongodbPassword: mongopassword
+    mongodbDatabase: gluster-dashboard

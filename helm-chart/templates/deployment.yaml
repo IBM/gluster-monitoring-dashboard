@@ -1,0 +1,59 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  template:
+    metadata:
+      annotations:
+      labels:
+        app: {{ .Release.Name }}
+    spec:
+      containers:
+      - name: {{ .Release.Name }}-backend
+        image: "{{ .Values.backend.image.repository }}:{{ .Values.backend.image.tag }}"
+        imagePullPolicy: {{ .Values.backend.image.pullPolicy }}
+        env:
+        - name: MONGODB_SERVICE
+          value: {{ .Release.Name }}-mongodb
+        - name: MONGODB_USER
+          value: {{ .Values.mongodb.mongodbUsername }}
+        - name: MONGODB_PASSWORD
+          value: {{ .Values.mongodb.mongodbPassword }}
+        - name: BEARER_SECRET
+          value: {{ .Values.backend.glusterSecret }}
+        - name: REGISTRATION_SECRET
+          value: {{ .Values.general.registrationSecret }}
+        ports:
+        - containerPort: {{ .Values.backend.service.internalPort }}
+        resources:
+          limits:
+            cpu: "100m"
+            memory: "128Mi"
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+        readinessProbe:
+          initialDelaySeconds: 5
+          timeoutSeconds: 5
+          periodSeconds: 10
+          successThreshold: 1
+          failureThreshold: 6
+      - name: {{ .Release.Name }}-frontend
+        image: "{{ .Values.frontend.image.repository }}:{{ .Values.frontend.image.tag }}"
+        imagePullPolicy: {{ .Values.frontend.image.pullPolicy }}
+        env:
+        - name: BACKEND_HOSTNAME
+          value: {{ .Values.general.hostname }}
+        - name: REGISTRATION_SECRET
+          value: {{ .Values.general.registrationSecret }}
+        ports:
+        - containerPort: {{ .Values.frontend.service.internalPort }}
+        resources:
+          limits:
+            cpu: "100m"
+            memory: "128Mi"
+          requests:
+            cpu: "100m"
+            memory: "128Mi"

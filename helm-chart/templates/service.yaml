@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}
+spec:
+  type: {{ .Values.general.serviceType }}
+  ports:
+  - port: {{ .Values.frontend.service.externalPort }}
+    targetPort: {{ .Values.frontend.service.internalPort }}
+    protocol: TCP
+    name: {{ .Release.Name }}-frontend
+  - port: {{ .Values.backend.service.externalPort }}
+    targetPort: {{ .Values.backend.service.internalPort }}
+    protocol: TCP
+    name: {{ .Release.Name }}-backend
+  selector:
+    app: {{ .Release.Name }}
